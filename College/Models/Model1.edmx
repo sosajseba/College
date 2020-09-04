@@ -1,0 +1,457 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Test2Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="class">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_subject" Type="tinyint" Nullable="false" />
+          <Property Name="id_professor" Type="int" Nullable="false" />
+          <Property Name="id_day" Type="tinyint" Nullable="false" />
+          <Property Name="start_time" Type="time" Precision="1" Nullable="false" />
+          <Property Name="end_time" Type="time" Precision="1" Nullable="false" />
+          <Property Name="capacity" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="day">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="professor">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="surname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="dni" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="is_active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="role">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="subject">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="surname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="dni" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="file_number" Type="int" Nullable="false" />
+          <Property Name="id_role" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="user_class">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_user" Type="int" Nullable="false" />
+          <Property Name="id_class" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_class_day">
+          <End Role="day" Type="Self.day" Multiplicity="1" />
+          <End Role="class" Type="Self.class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="day">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="class">
+              <PropertyRef Name="id_day" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_class_professor">
+          <End Role="professor" Type="Self.professor" Multiplicity="1" />
+          <End Role="class" Type="Self.class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="professor">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="class">
+              <PropertyRef Name="id_professor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_class_subject">
+          <End Role="subject" Type="Self.subject" Multiplicity="1" />
+          <End Role="class" Type="Self.class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="subject">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="class">
+              <PropertyRef Name="id_subject" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_class_class">
+          <End Role="class" Type="Self.class" Multiplicity="1" />
+          <End Role="user_class" Type="Self.user_class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="class">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_class">
+              <PropertyRef Name="id_class" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_class_user">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="user_class" Type="Self.user_class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_class">
+              <PropertyRef Name="id_user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_role">
+          <End Role="role" Type="Self.role" Multiplicity="1" />
+          <End Role="user" Type="Self.user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="role">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user">
+              <PropertyRef Name="id_role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Test2ModelStoreContainer">
+          <EntitySet Name="class" EntityType="Self.class" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="day" EntityType="Self.day" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="professor" EntityType="Self.professor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="role" EntityType="Self.role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="subject" EntityType="Self.subject" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_class" EntityType="Self.user_class" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_class_day" Association="Self.FK_class_day">
+            <End Role="day" EntitySet="day" />
+            <End Role="class" EntitySet="class" />
+          </AssociationSet>
+          <AssociationSet Name="FK_class_professor" Association="Self.FK_class_professor">
+            <End Role="professor" EntitySet="professor" />
+            <End Role="class" EntitySet="class" />
+          </AssociationSet>
+          <AssociationSet Name="FK_class_subject" Association="Self.FK_class_subject">
+            <End Role="subject" EntitySet="subject" />
+            <End Role="class" EntitySet="class" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_class_class" Association="Self.FK_user_class_class">
+            <End Role="class" EntitySet="class" />
+            <End Role="user_class" EntitySet="user_class" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_class_user" Association="Self.FK_user_class_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="user_class" EntitySet="user_class" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_role" Association="Self.FK_user_role">
+            <End Role="role" EntitySet="role" />
+            <End Role="user" EntitySet="user" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Test2Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="class">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_subject" Type="Byte" Nullable="false" />
+          <Property Name="id_professor" Type="Int32" Nullable="false" />
+          <Property Name="id_day" Type="Byte" Nullable="false" />
+          <Property Name="start_time" Type="Time" Nullable="false" Precision="1" />
+          <Property Name="end_time" Type="Time" Nullable="false" Precision="1" />
+          <Property Name="capacity" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="day" Relationship="Self.FK_class_day" FromRole="class" ToRole="day" />
+          <NavigationProperty Name="professor" Relationship="Self.FK_class_professor" FromRole="class" ToRole="professor" />
+          <NavigationProperty Name="subject" Relationship="Self.FK_class_subject" FromRole="class" ToRole="subject" />
+          <NavigationProperty Name="user_class" Relationship="Self.FK_user_class_class" FromRole="class" ToRole="user_class" />
+        </EntityType>
+        <EntityType Name="day">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="class" Relationship="Self.FK_class_day" FromRole="day" ToRole="class" />
+        </EntityType>
+        <EntityType Name="professor">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="surname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="dni" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="is_active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="class" Relationship="Self.FK_class_professor" FromRole="professor" ToRole="class" />
+        </EntityType>
+        <EntityType Name="role">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="user" Relationship="Self.FK_user_role" FromRole="role" ToRole="user" />
+        </EntityType>
+        <EntityType Name="subject">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="class" Relationship="Self.FK_class_subject" FromRole="subject" ToRole="class" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="surname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="dni" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="file_number" Type="Int32" Nullable="false" />
+          <Property Name="id_role" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="role" Relationship="Self.FK_user_role" FromRole="user" ToRole="role" />
+          <NavigationProperty Name="user_class" Relationship="Self.FK_user_class_user" FromRole="user" ToRole="user_class" />
+        </EntityType>
+        <EntityType Name="user_class">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_user" Type="Int32" Nullable="false" />
+          <Property Name="id_class" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="class" Relationship="Self.FK_user_class_class" FromRole="user_class" ToRole="class" />
+          <NavigationProperty Name="user" Relationship="Self.FK_user_class_user" FromRole="user_class" ToRole="user" />
+        </EntityType>
+        <Association Name="FK_class_day">
+          <End Role="day" Type="Self.day" Multiplicity="1" />
+          <End Role="class" Type="Self.class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="day">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="class">
+              <PropertyRef Name="id_day" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_class_professor">
+          <End Role="professor" Type="Self.professor" Multiplicity="1" />
+          <End Role="class" Type="Self.class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="professor">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="class">
+              <PropertyRef Name="id_professor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_class_subject">
+          <End Role="subject" Type="Self.subject" Multiplicity="1" />
+          <End Role="class" Type="Self.class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="subject">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="class">
+              <PropertyRef Name="id_subject" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_class_class">
+          <End Role="class" Type="Self.class" Multiplicity="1" />
+          <End Role="user_class" Type="Self.user_class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="class">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_class">
+              <PropertyRef Name="id_class" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_role">
+          <End Role="role" Type="Self.role" Multiplicity="1" />
+          <End Role="user" Type="Self.user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="role">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user">
+              <PropertyRef Name="id_role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_class_user">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="user_class" Type="Self.user_class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_class">
+              <PropertyRef Name="id_user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Test2Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="class" EntityType="Self.class" />
+          <EntitySet Name="day" EntityType="Self.day" />
+          <EntitySet Name="professor" EntityType="Self.professor" />
+          <EntitySet Name="role" EntityType="Self.role" />
+          <EntitySet Name="subject" EntityType="Self.subject" />
+          <EntitySet Name="user" EntityType="Self.user" />
+          <EntitySet Name="user_class" EntityType="Self.user_class" />
+          <AssociationSet Name="FK_class_day" Association="Self.FK_class_day">
+            <End Role="day" EntitySet="day" />
+            <End Role="class" EntitySet="class" />
+          </AssociationSet>
+          <AssociationSet Name="FK_class_professor" Association="Self.FK_class_professor">
+            <End Role="professor" EntitySet="professor" />
+            <End Role="class" EntitySet="class" />
+          </AssociationSet>
+          <AssociationSet Name="FK_class_subject" Association="Self.FK_class_subject">
+            <End Role="subject" EntitySet="subject" />
+            <End Role="class" EntitySet="class" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_class_class" Association="Self.FK_user_class_class">
+            <End Role="class" EntitySet="class" />
+            <End Role="user_class" EntitySet="user_class" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_role" Association="Self.FK_user_role">
+            <End Role="role" EntitySet="role" />
+            <End Role="user" EntitySet="user" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_class_user" Association="Self.FK_user_class_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="user_class" EntitySet="user_class" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Test2ModelStoreContainer" CdmEntityContainer="Test2Entities">
+          <EntitySetMapping Name="class">
+            <EntityTypeMapping TypeName="Test2Model.class">
+              <MappingFragment StoreEntitySet="class">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_subject" ColumnName="id_subject" />
+                <ScalarProperty Name="id_professor" ColumnName="id_professor" />
+                <ScalarProperty Name="id_day" ColumnName="id_day" />
+                <ScalarProperty Name="start_time" ColumnName="start_time" />
+                <ScalarProperty Name="end_time" ColumnName="end_time" />
+                <ScalarProperty Name="capacity" ColumnName="capacity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="day">
+            <EntityTypeMapping TypeName="Test2Model.day">
+              <MappingFragment StoreEntitySet="day">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="professor">
+            <EntityTypeMapping TypeName="Test2Model.professor">
+              <MappingFragment StoreEntitySet="professor">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="surname" ColumnName="surname" />
+                <ScalarProperty Name="dni" ColumnName="dni" />
+                <ScalarProperty Name="is_active" ColumnName="is_active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="role">
+            <EntityTypeMapping TypeName="Test2Model.role">
+              <MappingFragment StoreEntitySet="role">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="subject">
+            <EntityTypeMapping TypeName="Test2Model.subject">
+              <MappingFragment StoreEntitySet="subject">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user">
+            <EntityTypeMapping TypeName="Test2Model.user">
+              <MappingFragment StoreEntitySet="user">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="surname" ColumnName="surname" />
+                <ScalarProperty Name="dni" ColumnName="dni" />
+                <ScalarProperty Name="file_number" ColumnName="file_number" />
+                <ScalarProperty Name="id_role" ColumnName="id_role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_class">
+            <EntityTypeMapping TypeName="Test2Model.user_class">
+              <MappingFragment StoreEntitySet="user_class">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_user" ColumnName="id_user" />
+                <ScalarProperty Name="id_class" ColumnName="id_class" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

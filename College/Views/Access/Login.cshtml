@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+        <!-- Tabs Titles -->
+        <h1>Inscripcion a materias</h1>
+        <!-- Login Form -->
+        <form action="@Url.Content("~/Access/Login")" method="post">
+            <input type="text" id="login" class="fadeIn second" name="User" placeholder="Dni">
+            <input type="password" id="password" class="fadeIn third" name="Pass" placeholder="Nro de legajo">
+            <input type="submit" class="fadeIn fourth" value="Iniciar Sesion">
+        </form>
+    </div>
+</div>
